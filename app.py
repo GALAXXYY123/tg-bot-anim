@@ -6,9 +6,10 @@ import asyncio
 
 app = Flask(__name__)
 
-# ВАШ ТОКЕН УЖЕ ВСТАВЛЕН
+# ВАШ ТОКЕН
 BOT_TOKEN = "7972371687:AAGSfOYn61dl2APWJ7KtIqOx1V_UcqHkb2Q"
-VIDEO_URL = "https://cdn.jsdelivr.net/gh/galaxxyy123/tg-bot-anim@main/tg-bot-anim"
+# ПРАВИЛЬНАЯ ССЫЛКА С .mp4
+VIDEO_URL = "https://cdn.jsdelivr.net/gh/galaxxyy123/tg-bot-anim@main/tg-bot-anim.mp4"
 
 # Создаем бота
 bot_app = Application.builder().token(BOT_TOKEN).build()
