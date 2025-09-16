@@ -1,0 +1,35 @@
+from flask import Flask, request
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes
+import os
+import asyncio
+
+app = Flask(__name__)
+
+# ВАШ ТОКЕН УЖЕ ВСТАВЛЕН
+BOT_TOKEN = "7972371687:AAGSfOYn61dl2APWJ7KtIqOx1V_UcqHkb2Q"
+VIDEO_URL = "https://cdn.jsdelivr.net/gh/galaxxyy123/tg-bot-anim@main/tg-bot-anim"
+
+# Создаем бота
+bot_app = Application.builder().token(BOT_TOKEN).build()
+
+# Отправка видео
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_video(video=VIDEO_URL)
+
+# Добавляем обработчик
+bot_app.add_handler(CommandHandler("start", start))
+
+# Вебхук для Telegram
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    update = Update.de_json(request.get_json(), bot_app.bot)
+    asyncio.run(bot_app.process_update(update))
+    return ''
+
+@app.route('/')
+def home():
+    return ''
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
