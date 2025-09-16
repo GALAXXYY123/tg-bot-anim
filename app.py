@@ -3,6 +3,9 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 import os
 import asyncio
+import requests
+from threading import Thread
+import time
 
 app = Flask(__name__)
 
@@ -31,6 +34,20 @@ def webhook():
 @app.route('/')
 def home():
     return ''
+
+# Автоматическая настройка вебхука при запуске
+def setup_webhook():
+    time.sleep(5)  # Ждем запуск сервера
+    webhook_url = "https://tg-bot-anim.onrender.com/webhook"
+    set_webhook_url = f"https://api.telegram.org/bot{BOT_TOKEN}/setWebhook?url={webhook_url}"
+    try:
+        response = requests.get(set_webhook_url)
+        print("Webhook setup result:", response.json())
+    except Exception as e:
+        print("Webhook setup error:", e)
+
+# Запускаем настройку вебхука в фоновом режиме
+Thread(target=setup_webhook).start()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
